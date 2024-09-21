@@ -87,3 +87,24 @@ select dname from dept
 select sum(sal),deptno from emp group by deptno;
 --30) Display all department with Minimum salary and maximum salary?
 select max(sal),min(sal) from emp group by deptno;
+--31) Display all ename, empno, dname, loc from emp, dept table.
+select ename,empno,dname,loc  from emp natural join dept;
+--32) Display all the departments where department does not have any employees
+select dname from dept where deptno not in (select deptno from emp);
+--33) Display all the departments where department does have atleast one employee
+select dname from dept where deptno in (select deptno from emp);
+--34) Display all employees those who are not managers.
+select ename from emp where job<>'MANAGER';
+--35) Display ename, deptno from emp table with format of {ename} belongs to {deptno}
+SELECT concat(concat(ename,' belongs to '),deptno) AS output
+FROM emp;
+--36) Display all the records in emp table. The ename should be lower case. The job first character should be upper case and rest of the character in job field should be lower case.
+select lower(ename) as ename,concat(upper(substr(job,1,1)),lower(substr(job,2))) as job from emp;
+--37) Create table emp2 and copy the emp table for deptno 10 while creating the table
+create table emp2 as select * from emp where deptno = 10;
+--37)  Create table emp3 with same structure of emp table. Do not copy the data
+ Create table emp3 as select * from emp where deptno is null;
+--39) Display all the records for deptno which belongs to employee name JAMES.
+select * from emp where deptno in (select deptno from emp where ename = 'JAMES');
+--40) Display all the records in emp table where salary should be less than or equal to ADAMS salary
+select * from emp where sal <= ANY(select sal from emp where ename = 'ADAMS');
